@@ -1,1 +1,3 @@
 # anti_violence_connect_app
+
+This app aims to connect help-seekers who are experiencing all forms of violence (domestic violence, intimate partner violence, hate-crime, workplace violence) with volunteers. Based on volunteering work in emergency cases connecting with LGBTQ+ victims suffering from domestic violence, this app hopes to allow individuals connect with their communities immediately and effectively to support needs that cannot be fulfilled solely through governmental or institutional aid. The resources provided by the volunteers include but are not limited to shelter, food, counseling, accompanying, legal, and translation assistance.
