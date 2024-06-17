@@ -23,10 +23,18 @@ CREATE TABLE language (
     FOREIGN KEY (language_family_id) REFERENCES language_family(language_family_id)
 );
 
+-- need part
+-- need category
+CREATE TABLE need_category (
+    need_category_id INT PRIMARY KEY AUTO_INCREMENT,
+    need_category_name VARCHAR(50) NOT NULL UNIQUE
+);
 -- need
 CREATE TABLE need (
     need_id INT PRIMARY KEY AUTO_INCREMENT,
-    need_name VARCHAR(50) NOT NULL UNIQUE
+    need_name VARCHAR(50) NOT NULL UNIQUE,
+    need_category_id INT,
+    FOREIGN KEY (need_category_id) REFERENCES need_category(need_category_id)
 );
 
 -- residency_status
@@ -246,15 +254,38 @@ INSERT INTO location (location_name) VALUES
 ('West Vancouver'), 
 ('White Rock');
 
-INSERT INTO need (need_name) VALUES 
-('Shelter'), 
-('Food'), 
-('Counseling'), 
-('Legal Assistance'), 
-('Medical Care'), 
-('Translation Services'), 
-('Employment Assistance'), 
-('Education');
+INSERT INTO need_category (need_category_name) VALUES 
+('Basic Needs'), 
+('Medical Needs'), 
+('Legal Needs'), 
+('Psychological Needs'), 
+('Physical Needs'), 
+('Financial Needs'), 
+('Counseling Needs'), 
+('Accompanying Needs'), 
+('Language/Translation Needs'), 
+('Functional Needs');
+
+INSERT INTO need (need_name, need_category_id) VALUES 
+('Shelter', 1), 
+('Food', 1), 
+('Medical Care', 2), 
+('Legal Assistance', 3), 
+('Psychological Support', 4), 
+('Physical Therapy', 5), 
+('Financial Assistance', 6), 
+('Counseling', 7), 
+('Accompanying', 8), 
+('Translation Services', 9), 
+('French Translation', 9), 
+('Chinese Translation', 9), 
+('Walking Assistance', 10), 
+('Hearing Assistance', 10), 
+('Seeing Assistance', 10), 
+('Cognitive Functioning Assistance', 10), 
+('Self-Care Assistance', 10), 
+('Communication Assistance', 10), 
+('Mobility Assistance', 10);
 
 INSERT INTO functional_need (functional_need_name) VALUES 
 ('Walking'), 
