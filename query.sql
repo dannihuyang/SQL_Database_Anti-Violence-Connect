@@ -94,7 +94,26 @@ ORDER BY average_duration DESC;
 
 /*
 5. (Functional Needs - Intervention Effectiveness) 
-Are there any correlations between what the help seeker’s functional needs are 
-and whether the interventions are successfully resolved or not within a long enough period of time (12 months)? 
-For each kind of functional need of help seekers, what are the percentage of the interventions being effective.
-/*
+* Since functional_need’s relationship with incident_need still need other implementations, 
+this query can be currently used as a hypothetical analysis.
+* We can think of functional need for now as a need that each help_seeker might have but not necessarily addressed by the volunteers 
+(the volunteers do not have such resource) to exemplify how these needs in our current environment are unseen.
+
+Are there any correlations between what the help seeker’s functional needs are and whether the interventions are successfully 
+resolved or not within a long enough period of time (12 months)? 
+For each kind of functional need of help seekers, what are the percentage of the interventions being effective, 
+order from least percentage of effectiveness to most.
+*/
+SELECT 
+functional_need_name,
+ ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' AND DATEDIFF(intervention_end_date, intervention_start_date) <= 365 THEN 1 ELSE 0 END) 
+    / COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as effective_12_months
+FROM functional_need
+JOIN help_seeker_functional_need USING (functional_need_id)
+JOIN help_seeker USING (help_seeker_id)
+JOIN incident USING (help_seeker_id)
+JOIN incident_need_list USING (incident_id)
+JOIN intervention USING (incident_need_id)
+JOIN intervention_status USING (intervention_status_id)
+GROUP BY functional_need_name
+ORDER BY effective_12_months;
