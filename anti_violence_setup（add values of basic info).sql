@@ -35,10 +35,10 @@ CREATE TABLE residency_status (
     residency_status_category VARCHAR(50) NOT NULL UNIQUE
 );
 
--- functional_needs
-CREATE TABLE functional_needs (
-    functional_ability_id INT PRIMARY KEY AUTO_INCREMENT,
-    functional_ability_name VARCHAR(50) NOT NULL UNIQUE
+-- functional_need
+CREATE TABLE functional_need (
+    functional_need_id INT PRIMARY KEY AUTO_INCREMENT,
+    functional_need_name VARCHAR(50) NOT NULL UNIQUE
 );
 
 -- location
@@ -79,13 +79,13 @@ CREATE TABLE help_seeker_language (
     FOREIGN KEY (language_id) REFERENCES language(language_id)
 );
 
--- help_seeker_functional_needs
-CREATE TABLE help_seeker_functional_needs (
+-- help_seeker_functional_need
+CREATE TABLE help_seeker_functional_need (
     help_seeker_id INT,
-    functional_ability_id INT,
-    PRIMARY KEY (help_seeker_id, functional_ability_id),
+    functional_need_id INT,
+    PRIMARY KEY (help_seeker_id, functional_need_id),
     FOREIGN KEY (help_seeker_id) REFERENCES help_seeker(help_seeker_id),
-    FOREIGN KEY (functional_ability_id) REFERENCES functional_needs(functional_ability_id)
+    FOREIGN KEY (functional_need_id) REFERENCES functional_need(functional_need_id)
 );
 
 -- Info of Volunteers
@@ -112,8 +112,8 @@ CREATE TABLE volunteer_language (
     FOREIGN KEY (language_id) REFERENCES language(language_id)
 );
 
--- volunteer_has_resources_list
-CREATE TABLE volunteer_has_resources_list (
+-- volunteer_has_resource_list
+CREATE TABLE volunteer_has_resource_list (
     volunteer_id INT,
     need_id INT,
     resource_description TEXT NOT NULL,
@@ -133,13 +133,13 @@ CREATE TABLE violence_category (
 CREATE TABLE incident (
     incident_id INT PRIMARY KEY AUTO_INCREMENT,
     help_seeker_id INT NOT NULL,
-    violence_id INT NOT NULL,
+    violence_category id INT NOT NULL,
     location_id INT,
     incident_start_date DATE NOT NULL,
     incident_end_date DATE,
     incident_description TEXT,
     FOREIGN KEY (help_seeker_id) REFERENCES help_seeker(help_seeker_id),
-    FOREIGN KEY (violence_id) REFERENCES violence_category(violence_category_id),
+    FOREIGN KEY (violence_category_id) REFERENCES violence_category(violence_category_id),
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
@@ -255,7 +255,7 @@ INSERT INTO need (need_name) VALUES
 ('Employment Assistance'), 
 ('Education');
 
-INSERT INTO functional_needs (functional_ability_name) VALUES 
+INSERT INTO functional_need (functional_need_name) VALUES 
 ('Walking'), 
 ('Hearing'), 
 ('Seeing'), 
