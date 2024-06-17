@@ -99,6 +99,8 @@ CREATE TABLE volunteer (
     email VARCHAR(100),
     phone VARCHAR(20) NOT NULL,
     availability TINYINT(1),
+    specialty_certificate BLOB,
+    specialty_description VARCHAR(255),
     FOREIGN KEY (gender_id) REFERENCES gender(gender_id),
     FOREIGN KEY (specialty_id) REFERENCES specialty(specialty_id)
 );
