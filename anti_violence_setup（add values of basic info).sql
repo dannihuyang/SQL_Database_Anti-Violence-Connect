@@ -133,7 +133,7 @@ CREATE TABLE violence_category (
 CREATE TABLE incident (
     incident_id INT PRIMARY KEY AUTO_INCREMENT,
     help_seeker_id INT NOT NULL,
-    violence_category id INT NOT NULL,
+    violence_category_id INT NOT NULL,
     location_id INT,
     incident_start_date DATE NOT NULL,
     incident_end_date DATE,
