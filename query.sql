@@ -21,10 +21,10 @@ in terms of each violence category’s different needs of an incident?
 thus if there are 9 incident-need pair, there will automatically be 9 interventions
 */
 SELECT 
-  violence_category_name as violence_category,
-  need_name,
-  ROUND(100.0 * SUM(CASE WHEN ins.intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
-  / COUNT(*), 2) as per_effective
+	violence_category_name as violence_category,
+	need_name,
+	ROUND(100.0 * SUM(CASE WHEN ins.intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
+	/ COUNT(*), 2) as per_effective
 FROM violence_category
 JOIN incident USING (violence_category_id)
 JOIN incident_need_list USING (incident_id)
@@ -55,12 +55,21 @@ ORDER BY violence_category, num_incident;
 
 
 /*
-3. (Help seeker statistics) 
-The top violence that help seekers with different residency status face, 
-and the number of incidents of each violence category. 
-For the top violence of Temporary visa holders, 
-what is the top language family that the help seekers’s language belongs to?
+3. (Help seeker - Residency Status - Incident, statistics) 
+For help seekers with different residency status, what kind of violence (violence_category) do they face the most, 
+show the number of incidents happen for different pairs of residency status and violence category? 
+Which pair experience the most violent incidents?
 */
+SELECT 
+	residency_status_category,
+	violence_category_name,
+	COUNT(incident_id) as num_incident
+FROM help_seeker
+JOIN residency_status USING (residency_status_id)
+JOIN incident USING (help_seeker_id)
+JOIN violence_category USING (violence_category_id)
+GROUP BY residency_status_category, violence_category_name
+ORDER BY num_incident;
 
 /*
 4. (Intervention - Violence Category - Effectiveness/Time) 
