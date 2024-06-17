@@ -11,39 +11,28 @@ SELECT * FROM intervention_status;
 SELECT * FROM intervention;
 
 /* 1. (Resource/Need satisfaction) 
-What are the needs for different violence categories and how well are they addressed? 
-Order by number of needs in desc order, **and show the % of intervention that has been resolved.**
-*/ 
+As each intervention is directing addressing an incident’s unique need, 
+which means there will be multiple intervention created to meet the same incident’s different needs. 
 
--- what are the needs for different violence categories
+What is the percentage of intervention being effective out of all interventions 
+in terms of each violence category’s different needs of an incident?
 
--- JOIN intervention_status ins ON (inte.intervention_status_id = ins.intervention_status_id AND intervention_status_name = 'Effective')
--- AND intervention_status_name = 'Effective'
-
--- assuming as long as there is an incident with need, an intervention is automatically generally as pending
--- thus if there are 9 incident-need pair, there will automatically be 9 interventions
+* assuming as long as there is an incident with need, an intervention is automatically generally as pending
+thus if there are 9 incident-need pair, there will automatically be 9 interventions
+*/
 SELECT 
 violence_category_name as violence_category,
-GROUP_CONCAT(DISTINCT need_name ORDER BY need_name SEPARATOR ', ') as need,
-COUNT(need_name) as num_need
+need_name,
+ROUND(100.0 * SUM(CASE WHEN ins.intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
+/ COUNT(*), 2) as per_effective
 FROM violence_category
 JOIN incident USING (violence_category_id)
 JOIN incident_need_list USING (incident_id)
 JOIN need USING (need_id)
 JOIN intervention inte USING (incident_need_id)
+JOIN intervention_status ins ON (inte.intervention_status_id = ins.intervention_status_id)
+GROUP BY violence_category, need_name;
 
-GROUP BY violence_category_name
-ORDER BY num_need DESC;
-
-
-SELECT 
-*
-FROM violence_category
-JOIN incident USING (violence_category_id)
-JOIN incident_need_list USING (incident_id)
-JOIN need USING (need_id)
-JOIN intervention inte USING (incident_need_id)
-JOIN intervention_status ins ON (inte.intervention_status_id = ins.intervention_status_id);
 
 /*
 2. (Violence-location statistics) 
