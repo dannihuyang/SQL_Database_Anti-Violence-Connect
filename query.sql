@@ -1,15 +1,6 @@
 USE anti_violence;
 
 
-SELECT * FROM violence_category;
-SELECT * FROM need;
-SELECT * FROM incident;
-SELECT * FROM incident_need_list;
-
-SELECT * FROM volunteer;
-SELECT * FROM intervention_status;
-SELECT * FROM intervention;
-
 /* 1. (Resource/Need satisfaction) 
 As each intervention is directing addressing an incident’s unique need, 
 which means there will be multiple intervention created to meet the same incident’s different needs. 
@@ -23,14 +14,14 @@ thus if there are 9 incident-need pair, there will automatically be 9 interventi
 SELECT 
 	violence_category_name as violence_category,
 	need_name,
-	ROUND(100.0 * SUM(CASE WHEN ins.intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
-	/ COUNT(*), 2) as per_effective
+	ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
+	/ COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as per_effective
 FROM violence_category
 JOIN incident USING (violence_category_id)
 JOIN incident_need_list USING (incident_id)
 JOIN need USING (need_id)
-JOIN intervention inte USING (incident_need_id)
-JOIN intervention_status ins ON (inte.intervention_status_id = ins.intervention_status_id)
+JOIN intervention USING (incident_need_id)
+JOIN intervention_status USING (intervention_status_id)
 GROUP BY violence_category, need_name
 ORDER BY violence_category, need_name;
 
@@ -73,10 +64,32 @@ ORDER BY num_incident;
 
 /*
 4. (Intervention - Violence Category - Effectiveness/Time) 
-Show the percentage of interventions in each violence category been effective (intervention status = “effective”) 
-out of all interventions (excluding cases where intervention status = “closed”) after 3 months, 6 months and 12 months. 
-In the same query, output the average dates each violence category’s interventions take.
-/*
+For each violence category, 
+show the percentage of interventions being effective out of all interventions (excluding cases where intervention status = “closed”) 
+after 3 months, 6 months, 12 months and 24 months. 
+In the same query, output the average duration each violence category’s interventions take to be effective (even if it took more than 24 months),
+order by the longest average duration. 
+*/
+SELECT 
+	violence_category_name as violence_category,
+    ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' AND DATEDIFF(intervention_end_date, intervention_start_date) <= 90 THEN 1 ELSE 0 END) 
+    / COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as effective_3_months,
+    ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' AND DATEDIFF(intervention_end_date, intervention_start_date) <= 180 THEN 1 ELSE 0 END) 
+    / COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as effective_6_months,
+    ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' AND DATEDIFF(intervention_end_date, intervention_start_date) <= 365 THEN 1 ELSE 0 END) 
+    / COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as effective_12_months,
+    ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' AND DATEDIFF(intervention_end_date, intervention_start_date) <= (365 * 2) THEN 1 ELSE 0 END) 
+    / COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as effective_24_months,
+    ROUND(AVG(CASE WHEN intervention_status_name = 'Effective' 
+        THEN DATEDIFF(intervention_end_date, intervention_start_date) END), 0) 
+        as average_duration
+FROM violence_category
+JOIN incident USING (violence_category_id)
+JOIN incident_need_list USING (incident_id)
+JOIN intervention USING (incident_need_id)
+JOIN intervention_status USING (intervention_status_id)
+GROUP BY violence_category_name
+ORDER BY average_duration DESC;
 
 
 /*
