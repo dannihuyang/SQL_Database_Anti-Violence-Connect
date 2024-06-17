@@ -105,9 +105,9 @@ For each kind of functional need of help seekers, what are the percentage of the
 order from least percentage of effectiveness to most.
 */
 SELECT 
-functional_need_name,
- ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' AND DATEDIFF(intervention_end_date, intervention_start_date) <= 365 THEN 1 ELSE 0 END) 
-    / COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as effective_12_months
+	functional_need_name,
+ 	ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' AND DATEDIFF(intervention_end_date, intervention_start_date) <= 365 THEN 1 ELSE 0 END) 
+    	/ COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as effective_12_months
 FROM functional_need
 JOIN help_seeker_functional_need USING (functional_need_id)
 JOIN help_seeker USING (help_seeker_id)
@@ -117,3 +117,24 @@ JOIN intervention USING (incident_need_id)
 JOIN intervention_status USING (intervention_status_id)
 GROUP BY functional_need_name
 ORDER BY effective_12_months;
+
+/*
+6. (Language Family - Need Satisfaction) 
+For each different language family, which needs (such as shelter, food, medical care, etc.) are the least satisfied? 
+Calculate the satisfaction rate (i.e., the proportion of effective interventions *with no time limit) for each need within each language family,
+order from least percentage of effectiveness to most.
+*/
+SELECT 
+	language_family_name as language_family,
+   	ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
+    	/ COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as per_effective
+FROM language_family
+JOIN language USING (language_family_id)
+JOIN help_seeker_language USING (language_id)
+JOIN help_seeker USING (help_seeker_id)
+JOIN incident USING (help_seeker_id)
+JOIN incident_need_list USING (incident_id)
+JOIN intervention USING (incident_need_id)
+JOIN intervention_status USING (intervention_status_id)
+GROUP BY language_family_name
+ORDER BY per_effective;
