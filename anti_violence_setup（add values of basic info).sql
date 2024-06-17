@@ -162,18 +162,17 @@ CREATE TABLE intervention_status (
 -- intervention
 CREATE TABLE intervention (
     intervention_id INT PRIMARY KEY AUTO_INCREMENT,
-    incident_id INT NOT NULL,
-    incident_need_id INT,
-    volunteer_id INT,
+    incident_need_id INT NOT NULL,
+    volunteer_id INT NOT NULL,
     intervention_start_date DATE NOT NULL,
     intervention_end_date DATE,
     intervention_description TEXT,
     intervention_status_id INT NOT NULL,
-    FOREIGN KEY (incident_id) REFERENCES incident(incident_id),
     FOREIGN KEY (incident_need_id) REFERENCES incident_need_list(incident_need_id),
     FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteer_id),
     FOREIGN KEY (intervention_status_id) REFERENCES intervention_status(intervention_status_id)
 );
+
 
 
 
