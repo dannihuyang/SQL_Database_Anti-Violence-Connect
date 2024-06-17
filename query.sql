@@ -21,24 +21,37 @@ in terms of each violence category’s different needs of an incident?
 thus if there are 9 incident-need pair, there will automatically be 9 interventions
 */
 SELECT 
-violence_category_name as violence_category,
-need_name,
-ROUND(100.0 * SUM(CASE WHEN ins.intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
-/ COUNT(*), 2) as per_effective
+  violence_category_name as violence_category,
+  need_name,
+  ROUND(100.0 * SUM(CASE WHEN ins.intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
+  / COUNT(*), 2) as per_effective
 FROM violence_category
 JOIN incident USING (violence_category_id)
 JOIN incident_need_list USING (incident_id)
 JOIN need USING (need_id)
 JOIN intervention inte USING (incident_need_id)
 JOIN intervention_status ins ON (inte.intervention_status_id = ins.intervention_status_id)
-GROUP BY violence_category, need_name;
+GROUP BY violence_category, need_name
+ORDER BY violence_category, need_name;
 
 
 /*
 2. (Violence-location statistics) 
-What are the distribution of locations of violence incidents in Vancouver? 
-Order by violence category in desc order.
+For each violence category, how many incidents happened in different locations in Vancouver? 
+For each violence category, list the top three location with the corresponding number of incidents.
+
+To limit the number of rows for each category, 
+we need to use a stored procedure in mySQL or variables in PostgreSQL, Oracle which support window functions.
 */
+SELECT 
+	violence_category_name as violence_category, 
+	location_name as location,
+	COUNT(incident_id) as num_incident
+FROM violence_category
+JOIN incident USING (violence_category_id)
+JOIN location USING (location_id)
+GROUP BY violence_category_name, location_name
+ORDER BY violence_category, num_incident;
 
 
 /*
