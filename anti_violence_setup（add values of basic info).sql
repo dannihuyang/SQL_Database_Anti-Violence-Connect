@@ -23,18 +23,10 @@ CREATE TABLE language (
     FOREIGN KEY (language_family_id) REFERENCES language_family(language_family_id)
 );
 
--- need part
--- need category
-CREATE TABLE need_category (
-    need_category_id INT PRIMARY KEY AUTO_INCREMENT,
-    need_category_name VARCHAR(50) NOT NULL UNIQUE
-);
 -- need
 CREATE TABLE need (
     need_id INT PRIMARY KEY AUTO_INCREMENT,
-    need_name VARCHAR(50) NOT NULL UNIQUE,
-    need_category_id INT,
-    FOREIGN KEY (need_category_id) REFERENCES need_category(need_category_id)
+    need_name VARCHAR(50) NOT NULL UNIQUE
 );
 
 -- residency_status
