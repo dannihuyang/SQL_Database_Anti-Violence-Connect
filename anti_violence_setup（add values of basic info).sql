@@ -99,6 +99,8 @@ CREATE TABLE volunteer (
     email VARCHAR(100),
     phone VARCHAR(20) NOT NULL,
     availability TINYINT(1),
+    specialty_certificate BLOB,
+    specialty_description VARCHAR(255),
     FOREIGN KEY (gender_id) REFERENCES gender(gender_id),
     FOREIGN KEY (specialty_id) REFERENCES specialty(specialty_id)
 );
@@ -178,6 +180,7 @@ CREATE TABLE intervention (
 
 -- Insert Values
 
+-- Insert Values for gender
 INSERT INTO gender (gender_category) VALUES 
 ('Male'), 
 ('Female'), 
@@ -189,7 +192,7 @@ INSERT INTO gender (gender_category) VALUES
 ('Other'), 
 ('Prefer not to say');
 
-
+-- Insert Values for language_family
 INSERT INTO language_family (language_family_name) VALUES 
 ('Sino-Tibetan'),    
 ('Indo-European'),   
@@ -200,6 +203,7 @@ INSERT INTO language_family (language_family_name) VALUES
 ('Salishan'),        
 ('Athabaskan');      
 
+-- Insert Values for language
 INSERT INTO language (language_name, language_family_id) VALUES 
 ('Mandarin Chinese', 1),
 ('Cantonese Chinese', 1),
@@ -218,6 +222,7 @@ INSERT INTO language (language_name, language_family_id) VALUES
 ('Salish', 7),       
 ('Dene', 8);       
 
+-- Insert Values for residency_status
 INSERT INTO residency_status (residency_status_category) VALUES 
 ('Citizen'), 
 ('Permanent Resident'), 
@@ -225,7 +230,7 @@ INSERT INTO residency_status (residency_status_category) VALUES
 ('Refugee/Asylee'), 
 ('N/A');
 
-
+-- Insert Values for location
 INSERT INTO location (location_name) VALUES 
 ('Bowen Island'), 
 ('Burnaby'), 
@@ -244,16 +249,42 @@ INSERT INTO location (location_name) VALUES
 ('West Vancouver'), 
 ('White Rock');
 
-INSERT INTO need (need_name) VALUES 
-('Shelter'), 
-('Food'), 
-('Counseling'), 
-('Legal Assistance'), 
-('Medical Care'), 
-('Translation Services'), 
-('Employment Assistance'), 
-('Education');
+-- Insert Values for need_category
+INSERT INTO need_category (need_category_name) VALUES 
+('Basic Needs'), 
+('Medical Needs'), 
+('Legal Needs'), 
+('Psychological Needs'), 
+('Physical Needs'), 
+('Financial Needs'), 
+('Counseling Needs'), 
+('Accompanying Needs'), 
+('Language/Translation Needs'), 
+('Functional Needs');
 
+-- Insert Values for need
+INSERT INTO need (need_name, need_category_id) VALUES 
+('Shelter', 1), 
+('Food', 1), 
+('Medical Care', 2), 
+('Legal Assistance', 3), 
+('Psychological Support', 4), 
+('Physical Therapy', 5), 
+('Financial Assistance', 6), 
+('Counseling', 7), 
+('Accompanying', 8), 
+('Translation Services', 9), 
+('French Translation', 9), 
+('Chinese Translation', 9), 
+('Walking Assistance', 10), 
+('Hearing Assistance', 10), 
+('Seeing Assistance', 10), 
+('Cognitive Functioning Assistance', 10), 
+('Self-Care Assistance', 10), 
+('Communication Assistance', 10), 
+('Mobility Assistance', 10);
+
+-- Insert Values for functional_need
 INSERT INTO functional_need (functional_need_name) VALUES 
 ('Walking'), 
 ('Hearing'), 
@@ -263,6 +294,7 @@ INSERT INTO functional_need (functional_need_name) VALUES
 ('Communication'), 
 ('Mobility');
 
+-- Insert Values for specialty
 INSERT INTO specialty (specialty_name, certificate, specialty_description) VALUES 
 ('Psychologist', NULL, 'Provides psychological assessments and therapy'),
 ('Lawyer', NULL, 'Provides legal advice and representation'),
@@ -270,3 +302,112 @@ INSERT INTO specialty (specialty_name, certificate, specialty_description) VALUE
 ('Social Worker', NULL, 'Provides social support and resources'),
 ('Counselor', NULL, 'Provides counseling and mental health support'),
 ('Language', NULL, 'Provides translation and interpretation services');
+
+-- Insert Values for violence_category
+INSERT INTO violence_category (violence_category_name) VALUES
+('Domestic Violence'),
+('Intimate Partner Violence'),
+('Hate Crime'),
+('Workplace Violence');
+
+-- Insert Values for help_seeker
+INSERT INTO help_seeker (help_seeker_name, residency_status_id, gender_id, age, email, phone) VALUES
+('Alice', 4, 2, 30, 'alice@example.com', '123-456-7890'),
+('Bob', 3, 1, 25, 'bob@example.com', '234-567-8901'),
+('Charlie', 3, 3, 35, 'charlie@example.com', '345-678-9012'),
+('Diana', 2, 2, 28, 'diana@example.com', '456-789-0123'),
+('Eve', 1, 4, 32, 'eve@example.com', '567-890-1234'),
+('Frank', 5, 1, 40, 'frank@example.com', '678-901-2345');
+
+-- Insert Values for incident
+INSERT INTO incident (help_seeker_id, violence_category_id, location_id, incident_start_date, incident_end_date, incident_description) VALUES
+(1, 1, 14, '2024-01-01', '2024-01-02', 'Incident of domestic violence reported by Alice in Vancouver.'),
+(2, 2, 13, '2024-02-01', '2024-02-03', 'Bob reported an intimate partner violence incident in Surrey.'),
+(3, 3, 2, '2024-03-05', '2024-03-07', 'Charlie experienced a hate-crime incident in Burnaby.'),
+(4, 4, 12, '2024-04-10', '2024-04-11', 'Diana reported workplace violence in Richmond.'),
+(5, 2, 15, '2024-05-12', '2024-05-13', 'Eve experienced intimate partner violence in West Vancouver.'),
+(6, 3, 7, '2024-06-15', '2024-06-16', 'Frank was a victim of a hate-crime in New Westminster.'),
+(1, 4, 8, '2024-07-20', NULL, 'Alice reported ongoing workplace violence in North Vancouver.'),
+(2, 1, 4, '2024-08-25', '2024-08-26', 'Bob experienced domestic violence in Delta.');
+
+-- Insert Values for incident_need_list
+INSERT INTO incident_need_list (incident_id, need_id, need_description) VALUES
+(1, 1, 'Temporary shelter required for Alice after domestic violence incident.'),
+(1, 2, 'Provision of food supplies needed for Alice.'),
+(2, 3, 'Counseling services required for Bob after intimate partner violence incident.'),
+(3, 4, 'Legal assistance needed for Charlie after hate-crime incident.'),
+(4, 5, 'Medical care required for Diana after workplace violence incident.'),
+(5, 3, 'Counseling services needed for Eve after intimate partner violence incident.'),
+(6, 6, 'Translation services required for Frank during hate-crime reporting.'),
+(2, 7, 'Employment assistance needed for Bob.'),
+(3, 8, 'Educational support required for Charlie.');
+
+-- Insert Values for volunteer
+INSERT INTO volunteer (volunteer_name, gender_id, specialty_id, age, email, phone, availability) VALUES
+('John Doe', 1, 1, 45, 'john.doe@example.com', '555-1234', 1),
+('Jane Smith', 2, 2, 38, 'jane.smith@example.com', '555-5678', 1),
+('Alex Johnson', 3, 3, 50, 'alex.johnson@example.com', '555-9101', 1),
+('Maria Garcia', 2, 4, 29, 'maria.garcia@example.com', '555-1122', 0),
+('Michael Brown', 1, 5, 35, 'michael.brown@example.com', '555-3344', 1),
+('Emily Davis', 2, 6, 42, 'emily.davis@example.com', '555-5566', 1);
+
+-- Insert Values for intervention_status
+INSERT INTO intervention_status (intervention_status_name) VALUES
+('Pending'),
+('In Progress'),
+('Effective'),
+('Escalated'),
+('Closed');
+
+-- Insert Values for intervention
+INSERT INTO intervention (incident_need_id, volunteer_id, intervention_start_date, intervention_end_date, intervention_description, intervention_status_id) VALUES
+(1, 1, '2024-01-02', '2024-01-05', 'Provided temporary shelter for Alice.', 3),
+(2, 2, '2024-02-02', '2024-02-10', 'Provided legal assistance to Bob.', 3),
+(3, 3, '2024-03-06', '2024-03-12', 'Offered legal representation for Charlie.', 2),
+(4, 4, '2024-04-11', '2024-04-15', 'Arranged medical care for Diana.', 1),
+(5, 5, '2024-05-13', '2024-05-20', 'Counseling services for Eve.', 3),
+(6, 6, '2024-06-16', '2024-06-20', 'Provided translation services for Frank.', 2)
+
+
+-- more additional data Jun 17 as placeholders
+INSERT INTO help_seeker_functional_need (help_seeker_id, functional_need_id) VALUES
+(1, 2), -- Alice needs hearing aid
+(1, 3), -- Alice needs visual aid
+(2, 1), -- Bob needs walking assistance
+(2, 5), -- Bob needs self-care assistance
+(3, 4), -- Charlie needs cognitive functioning assistance
+(3, 7), -- Charlie needs mobility assistance
+(4, 6), -- Diana needs communication assistance
+(5, 3), -- Eve needs visual aid
+(6, 2), -- Frank needs hearing aid
+(6, 7); -- Frank needs mobility assistance
+
+INSERT INTO help_seeker_language (help_seeker_id, language_id) VALUES
+-- Alice speaks English and Mandarin Chinese
+(1, 3),
+(1, 1),
+
+-- Bob speaks English and French
+(2, 3),
+(2, 4),
+
+-- Charlie speaks Punjabi and Hindi
+(3, 5),
+(3, 6),
+
+-- Diana speaks English and Spanish
+(4, 3),
+(4, 8),
+
+-- Eve speaks Tamil and Arabic
+(5, 11),
+(5, 12),
+
+-- Frank speaks English and Russian
+(6, 3),
+(6, 9);
+
+    
+(7, 1, '2024-07-21', NULL, 'Ongoing workplace violence case for Alice.', 2),
+(8, 2, '2024-08-26', NULL, 'Employment assistance for Bob.', 2),
+(9, 1, '2024-03-08', '2024-03-15', 'Provided educational support for Charlie.', 3);
