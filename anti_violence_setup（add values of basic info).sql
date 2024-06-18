@@ -366,7 +366,48 @@ INSERT INTO intervention (incident_need_id, volunteer_id, intervention_start_dat
 (3, 3, '2024-03-06', '2024-03-12', 'Offered legal representation for Charlie.', 2),
 (4, 4, '2024-04-11', '2024-04-15', 'Arranged medical care for Diana.', 1),
 (5, 5, '2024-05-13', '2024-05-20', 'Counseling services for Eve.', 3),
-(6, 6, '2024-06-16', '2024-06-20', 'Provided translation services for Frank.', 2),
+(6, 6, '2024-06-16', '2024-06-20', 'Provided translation services for Frank.', 2)
+
+
+-- more additional data Jun 17 as placeholders
+INSERT INTO help_seeker_functional_need (help_seeker_id, functional_need_id) VALUES
+(1, 2), -- Alice needs hearing aid
+(1, 3), -- Alice needs visual aid
+(2, 1), -- Bob needs walking assistance
+(2, 5), -- Bob needs self-care assistance
+(3, 4), -- Charlie needs cognitive functioning assistance
+(3, 7), -- Charlie needs mobility assistance
+(4, 6), -- Diana needs communication assistance
+(5, 3), -- Eve needs visual aid
+(6, 2), -- Frank needs hearing aid
+(6, 7); -- Frank needs mobility assistance
+
+INSERT INTO help_seeker_language (help_seeker_id, language_id) VALUES
+-- Alice speaks English and Mandarin Chinese
+(1, 3),
+(1, 1),
+
+-- Bob speaks English and French
+(2, 3),
+(2, 4),
+
+-- Charlie speaks Punjabi and Hindi
+(3, 5),
+(3, 6),
+
+-- Diana speaks English and Spanish
+(4, 3),
+(4, 8),
+
+-- Eve speaks Tamil and Arabic
+(5, 11),
+(5, 12),
+
+-- Frank speaks English and Russian
+(6, 3),
+(6, 9);
+
+    
 (7, 1, '2024-07-21', NULL, 'Ongoing workplace violence case for Alice.', 2),
 (8, 2, '2024-08-26', NULL, 'Employment assistance for Bob.', 2),
 (9, 1, '2024-03-08', '2024-03-15', 'Provided educational support for Charlie.', 3);
