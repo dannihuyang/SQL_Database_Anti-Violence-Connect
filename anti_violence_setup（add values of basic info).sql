@@ -51,9 +51,7 @@ CREATE TABLE location (
 -- specialty
 CREATE TABLE specialty (
     specialty_id INT PRIMARY KEY AUTO_INCREMENT,
-    specialty_name VARCHAR(50) NOT NULL,
-    certificate BLOB,
-    specialty_description VARCHAR(255)
+    specialty_name VARCHAR(50) NOT NULL
 );
 
 -- Help Seeker Part
@@ -137,8 +135,7 @@ CREATE TABLE incident (
     help_seeker_id INT NOT NULL,
     violence_category_id INT NOT NULL,
     location_id INT,
-    incident_start_date DATE NOT NULL,
-    incident_end_date DATE,
+    incident_date DATE NOT NULL,
     incident_description TEXT,
     FOREIGN KEY (help_seeker_id) REFERENCES help_seeker(help_seeker_id),
     FOREIGN KEY (violence_category_id) REFERENCES violence_category(violence_category_id),
@@ -249,40 +246,18 @@ INSERT INTO location (location_name) VALUES
 ('West Vancouver'), 
 ('White Rock');
 
--- Insert Values for need_category
-INSERT INTO need_category (need_category_name) VALUES 
-('Basic Needs'), 
-('Medical Needs'), 
-('Legal Needs'), 
-('Psychological Needs'), 
-('Physical Needs'), 
-('Financial Needs'), 
-('Counseling Needs'), 
-('Accompanying Needs'), 
-('Language/Translation Needs'), 
-('Functional Needs');
 
 -- Insert Values for need
-INSERT INTO need (need_name, need_category_id) VALUES 
-('Shelter', 1), 
-('Food', 1), 
-('Medical Care', 2), 
-('Legal Assistance', 3), 
-('Psychological Support', 4), 
-('Physical Therapy', 5), 
-('Financial Assistance', 6), 
-('Counseling', 7), 
-('Accompanying', 8), 
-('Translation Services', 9), 
-('French Translation', 9), 
-('Chinese Translation', 9), 
-('Walking Assistance', 10), 
-('Hearing Assistance', 10), 
-('Seeing Assistance', 10), 
-('Cognitive Functioning Assistance', 10), 
-('Self-Care Assistance', 10), 
-('Communication Assistance', 10), 
-('Mobility Assistance', 10);
+INSERT INTO need (need_name) VALUES 
+('Shelter'), 
+('Food'), 
+('Medical Care'), 
+('Legal Assistance'), 
+('Psychological Support'), 
+('Financial Assistance'), 
+('Counseling'), 
+('Housing'),
+('Employment');
 
 -- Insert Values for functional_need
 INSERT INTO functional_need (functional_need_name) VALUES 
@@ -295,13 +270,13 @@ INSERT INTO functional_need (functional_need_name) VALUES
 ('Mobility');
 
 -- Insert Values for specialty
-INSERT INTO specialty (specialty_name, certificate, specialty_description) VALUES 
-('Psychologist', NULL, 'Provides psychological assessments and therapy'),
-('Lawyer', NULL, 'Provides legal advice and representation'),
-('Medical Doctor', NULL, 'Provides medical care and treatment'),
-('Social Worker', NULL, 'Provides social support and resources'),
-('Counselor', NULL, 'Provides counseling and mental health support'),
-('Language', NULL, 'Provides translation and interpretation services');
+INSERT INTO specialty (specialty_name) VALUES 
+('Psychologist'),
+('Lawyer'),
+('Medical Doctor'),
+('Social Worker'),
+('Counselor'),
+('Language');
 
 -- Insert Values for violence_category
 INSERT INTO violence_category (violence_category_name) VALUES
@@ -366,8 +341,10 @@ INSERT INTO intervention (incident_need_id, volunteer_id, intervention_start_dat
 (3, 3, '2024-03-06', '2024-03-12', 'Offered legal representation for Charlie.', 2),
 (4, 4, '2024-04-11', '2024-04-15', 'Arranged medical care for Diana.', 1),
 (5, 5, '2024-05-13', '2024-05-20', 'Counseling services for Eve.', 3),
-(6, 6, '2024-06-16', '2024-06-20', 'Provided translation services for Frank.', 2)
-
+(6, 6, '2024-06-16', '2024-06-20', 'Provided translation services for Frank.', 2),
+(7, 1, '2024-07-21', NULL, 'Ongoing workplace violence case for Alice.', 2),
+(8, 2, '2024-08-26', NULL, 'Employment assistance for Bob.', 2),
+(9, 1, '2024-03-08', '2024-03-15', 'Provided educational support for Charlie.', 3);
 
 -- more additional data Jun 17 as placeholders
 INSERT INTO help_seeker_functional_need (help_seeker_id, functional_need_id) VALUES
@@ -408,6 +385,3 @@ INSERT INTO help_seeker_language (help_seeker_id, language_id) VALUES
 (6, 9);
 
     
-(7, 1, '2024-07-21', NULL, 'Ongoing workplace violence case for Alice.', 2),
-(8, 2, '2024-08-26', NULL, 'Employment assistance for Bob.', 2),
-(9, 1, '2024-03-08', '2024-03-15', 'Provided educational support for Charlie.', 3);
