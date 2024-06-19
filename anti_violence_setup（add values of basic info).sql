@@ -225,11 +225,9 @@ INSERT INTO language (language_name, language_family_id) VALUES
 
 -- Insert Values for residency_status
 INSERT INTO residency_status (residency_status_category) VALUES 
-('Citizen'), 
-('Permanent Resident'), 
-('Temporary Visa Holder'), 
-('Refugee/Asylee'), 
-('N/A');
+('Non-immigrant citizen”'), 
+('Immigrant citizen or permanent resident'), 
+('Other temporary resident permit');
 
 -- Insert Values for location
 INSERT INTO location (location_name) VALUES 
@@ -291,12 +289,12 @@ INSERT INTO violence_category (violence_category_name) VALUES
 
 -- Insert Values for help_seeker
 INSERT INTO help_seeker (help_seeker_name, residency_status_id, gender_id, age, email, phone) VALUES
-('Alice', 4, 2, 30, 'alice@example.com', '123-456-7890'),
+('Alice', 3, 2, 30, 'alice@example.com', '123-456-7890'),
 ('Bob', 3, 1, 25, 'bob@example.com', '234-567-8901'),
 ('Charlie', 3, 3, 35, 'charlie@example.com', '345-678-9012'),
 ('Diana', 2, 2, 28, 'diana@example.com', '456-789-0123'),
 ('Eve', 1, 4, 32, 'eve@example.com', '567-890-1234'),
-('Frank', 5, 1, 40, 'frank@example.com', '678-901-2345');
+('Frank', 3, 1, 40, 'frank@example.com', '678-901-2345');
 
 -- Insert Values for incident
 INSERT INTO incident (help_seeker_id, violence_category_id, location_id, incident_date, incident_description) VALUES
