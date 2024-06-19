@@ -1067,7 +1067,8 @@ INSERT INTO intervention (incident_need_id, volunteer_id, intervention_start_dat
 (199, 199, '2040-07-21', '2040-07-25', 'Counseling for Belle.', 3),
 (200, 200, '2040-08-26', '2040-08-30', 'Housing support for Tina.', 3);
 
--- more additional data Jun 17 as placeholders
+
+-- Insert Values for help_seeker_functional_need
 INSERT INTO help_seeker_functional_need (help_seeker_id, functional_need_id) VALUES
 (1, 2), -- Alice needs hearing aid
 (1, 3), -- Alice needs visual aid
@@ -1078,7 +1079,116 @@ INSERT INTO help_seeker_functional_need (help_seeker_id, functional_need_id) VAL
 (4, 6), -- Diana needs communication assistance
 (5, 3), -- Eve needs visual aid
 (6, 2), -- Frank needs hearing aid
-(6, 7); -- Frank needs mobility assistance
+(6, 7), -- Frank needs mobility assistance
+(7, 2), -- Grace needs hearing aid
+(8, 1), -- Hank needs walking assistance
+(9, 4), -- Ivy needs cognitive functioning assistance
+(10, 6), -- Jack needs communication assistance
+(11, 2), -- Kim needs hearing aid
+(11, 3), -- Kim needs visual aid
+(12, 1), -- Liam needs walking assistance
+(12, 5), -- Liam needs self-care assistance
+(13, 3), -- Mia needs visual aid
+(14, 4), -- Noah needs cognitive functioning assistance
+(14, 7), -- Noah needs mobility assistance
+(15, 1), -- Olivia needs walking assistance
+(15, 6), -- Olivia needs communication assistance
+(16, 5), -- Paul needs self-care assistance
+(17, 3), -- Quinn needs visual aid
+(17, 7), -- Quinn needs mobility assistance
+(18, 2), -- Rita needs hearing aid
+(19, 4), -- Sam needs cognitive functioning assistance
+(20, 6), -- Tina needs communication assistance
+(21, 1), -- Uma needs walking assistance
+(21,5),  -- Uma needs self-care assistance
+(22, 2), -- Victoria needs hearing aid
+(23, 3), -- Wendy needs visual aid
+(24, 4), -- Xander needs cognitive functioning assistance
+(24, 6), -- Xander needs communication assistance
+(25, 1), -- Yara needs walking assistance
+(26, 7), -- Zack needs mobility assistance
+(27, 2), -- Amy needs hearing aid
+(27, 3), -- Amy needs visual aid
+(28, 5), -- Tracy needs self-care assistance
+(29, 6), -- Clara needs communication assistance
+(30, 1), -- Dave needs walking assistance
+(31, 7), -- Ella needs mobility assistance
+(32, 2), -- Felix needs hearing aid
+(32, 4), -- Felix needs cognitive functioning assistance
+(33, 5), -- Gina needs self-care assistance
+(34, 3), -- Harry needs visual aid
+(35, 6), -- Isla needs communication assistance
+(36, 1), -- Bethany needs walking assistance
+(36, 3), -- Bethany needs visual aid
+(37, 7), -- Kara needs mobility assistance
+(38, 2), -- Lee needs hearing aid
+(38, 4), -- Lee needs cognitive functioning assistance
+(39, 5), -- Mona needs self-care assistance
+(40, 6), -- Nina needs communication assistance
+(41, 1), -- Omar needs walking assistance
+(42, 2), -- Pia needs hearing aid
+(42, 3), -- Pia needs visual aid
+(43, 4), -- Rick needs cognitive functioning assistance
+(44, 5), -- Sara needs self-care assistance
+(45, 6), -- Tom needs communication assistance
+(46, 7), -- Ula needs mobility assistance
+(47, 1), -- Vera needs walking assistance
+(47, 2), -- Vera needs hearing aid
+(48, 3), -- Will needs visual aid
+(49, 4), -- Xena needs cognitive functioning assistance
+(50, 5), -- Yuri needs self-care assistance
+(51, 6), -- Zara needs communication assistance
+(52, 7), -- Alan needs mobility assistance
+(53, 1), -- Beth needs walking assistance
+(53, 2), -- Beth needs hearing aid
+(54, 3), -- Carl needs visual aid
+(55, 4), -- Dora needs cognitive functioning assistance
+(56, 5), -- Evan needs self-care assistance
+(57, 6), -- Fay needs communication assistance
+(58, 7), -- Glen needs mobility assistance
+(59, 1), -- Hope needs walking assistance
+(60, 2), -- Ian needs hearing aid
+(61, 3), -- Jill needs visual aid
+(62, 4), -- Kyle needs cognitive functioning assistance
+(63, 5), -- Lana needs self-care assistance
+(64, 6), -- Mark needs communication assistance
+(65, 7), -- Nora needs mobility assistance
+(66, 1), -- Owen needs walking assistance
+(67, 2), -- Pam needs hearing aid
+(68, 3), -- Quinn needs visual aid
+(69, 4), -- Ruth needs cognitive functioning assistance
+(70, 5), -- Steve needs self-care assistance
+(71, 6), -- Tara needs communication assistance
+(72, 7), -- Uri needs mobility assistance
+(73, 1), -- Vicky needs walking assistance
+(74, 2), -- Walt needs hearing aid
+(75, 3), -- Xia needs visual aid
+(76, 4), -- Yvonne needs cognitive functioning assistance
+(77, 5), -- Zane needs self-care assistance
+(78, 6), -- Anna needs communication assistance
+(79, 7), -- Blake needs mobility assistance
+(80, 1), -- Cora needs walking assistance
+(81, 2), -- Dean needs hearing aid
+(82, 3), -- Ella needs visual aid
+(83, 4), -- Finn needs cognitive functioning assistance
+(84, 5), -- Gail needs self-care assistance
+(85, 6), -- Hank needs communication assistance
+(86, 7), -- Ivy needs mobility assistance
+(87, 1), -- Jade needs walking assistance
+(88, 2), -- Kara needs hearing aid
+(89, 3), -- Mona needs visual aid
+(90, 4), -- Nina needs cognitive functioning assistance
+(91, 5), -- Oasis needs self-care assistance
+(92, 6), -- Pia needs communication assistance
+(93, 7), -- Quinn needs mobility assistance
+(94, 1), -- Rita needs walking assistance
+(95, 2), -- Taylor needs hearing aid
+(96, 3), -- Lia needs visual aid
+(97, 4), -- Felix needs cognitive functioning assistance
+(98, 5), -- Loha needs self-care assistance
+(99, 6), -- Belle needs communication assistance
+(100, 7); -- Tina needs mobility assistance
+
 
 -- Insert Values for help_seeker_language
 INSERT INTO help_seeker_language (help_seeker_id, language_id) VALUES
