@@ -286,7 +286,7 @@ INSERT INTO specialty (specialty_name) VALUES
 INSERT INTO violence_category (violence_category_name) VALUES
 ('Domestic Violence'),
 ('Intimate Partner Violence'),
-('Hate Crime'),
+('Bullying'),
 ('Workplace Violence');
 
 -- Insert Values for help_seeker
