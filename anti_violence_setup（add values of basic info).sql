@@ -198,7 +198,9 @@ INSERT INTO language_family (language_family_name) VALUES
 ('Dravidian'),       
 ('Algonquian'),      
 ('Salishan'),        
-('Athabaskan');      
+('Athabaskan'),       
+('Korean'),          
+('Iranian');        
 
 -- Insert Values for language
 INSERT INTO language (language_name, language_family_id) VALUES 
@@ -217,7 +219,9 @@ INSERT INTO language (language_name, language_family_id) VALUES
 ('Cree', 6),         
 ('Ojibwe', 6),      
 ('Salish', 7),       
-('Dene', 8);       
+('Dene', 8),        
+('Korean', 9),
+('Farsi', 10);      
 
 -- Insert Values for residency_status
 INSERT INTO residency_status (residency_status_category) VALUES 
@@ -295,15 +299,15 @@ INSERT INTO help_seeker (help_seeker_name, residency_status_id, gender_id, age, 
 ('Frank', 5, 1, 40, 'frank@example.com', '678-901-2345');
 
 -- Insert Values for incident
-INSERT INTO incident (help_seeker_id, violence_category_id, location_id, incident_start_date, incident_end_date, incident_description) VALUES
-(1, 1, 14, '2024-01-01', '2024-01-02', 'Incident of domestic violence reported by Alice in Vancouver.'),
-(2, 2, 13, '2024-02-01', '2024-02-03', 'Bob reported an intimate partner violence incident in Surrey.'),
-(3, 3, 2, '2024-03-05', '2024-03-07', 'Charlie experienced a hate-crime incident in Burnaby.'),
-(4, 4, 12, '2024-04-10', '2024-04-11', 'Diana reported workplace violence in Richmond.'),
-(5, 2, 15, '2024-05-12', '2024-05-13', 'Eve experienced intimate partner violence in West Vancouver.'),
-(6, 3, 7, '2024-06-15', '2024-06-16', 'Frank was a victim of a hate-crime in New Westminster.'),
-(1, 4, 8, '2024-07-20', NULL, 'Alice reported ongoing workplace violence in North Vancouver.'),
-(2, 1, 4, '2024-08-25', '2024-08-26', 'Bob experienced domestic violence in Delta.');
+INSERT INTO incident (help_seeker_id, violence_category_id, location_id, incident_date, incident_description) VALUES
+(1, 1, 14, '2024-01-01', 'Incident of domestic violence reported by Alice in Vancouver.'),
+(2, 2, 13, '2024-02-01', 'Bob reported an intimate partner violence incident in Surrey.'),
+(3, 3, 2, '2024-03-05', 'Charlie experienced a hate-crime incident in Burnaby.'),
+(4, 4, 12, '2024-04-10', 'Diana reported workplace violence in Richmond.'),
+(5, 2, 15, '2024-05-12', 'Eve experienced intimate partner violence in West Vancouver.'),
+(6, 3, 7, '2024-06-15', 'Frank was a victim of a hate-crime in New Westminster.'),
+(1, 4, 8, '2024-07-20',  'Alice reported ongoing workplace violence in North Vancouver.'),
+(2, 1, 4, '2024-08-25',  'Bob experienced domestic violence in Delta.');
 
 -- Insert Values for incident_need_list
 INSERT INTO incident_need_list (incident_id, need_id, need_description) VALUES
