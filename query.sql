@@ -37,6 +37,32 @@ GROUP BY violence_category, need_name
 ORDER BY num_of_need DESC
 LIMIT 5;
 
+-- show top 3 needs of each violence
+WITH RankedNeeds AS (
+    SELECT 
+        vc.violence_category_name AS violence_category,
+        n.need_name,
+        COUNT(n.need_name) AS num_of_need,
+        ROUND(100.0 * SUM(CASE WHEN int_status.intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
+            / COUNT(CASE WHEN int_status.intervention_status_name != 'Closed' 
+                          AND int_status.intervention_status_name != 'Escalated' THEN 1 END), 1) AS per_effective,
+        ROW_NUMBER() OVER (PARTITION BY vc.violence_category_name ORDER BY COUNT(n.need_name) DESC) AS rn
+    FROM violence_category vc
+    JOIN incident i ON vc.violence_category_id = i.violence_category_id
+    JOIN incident_need_list inl ON i.incident_id = inl.incident_id
+    JOIN need n ON inl.need_id = n.need_id
+    JOIN intervention intv ON inl.incident_need_id = intv.incident_need_id
+    JOIN intervention_status int_status ON intv.intervention_status_id = int_status.intervention_status_id
+    GROUP BY vc.violence_category_name, n.need_name
+)
+SELECT 
+    violence_category,
+    need_name,
+    num_of_need,
+    per_effective
+FROM RankedNeeds
+WHERE rn <= 3
+ORDER BY violence_category, num_of_need DESC;
 
 /*
 Query 2: Violence-Location Statistics
