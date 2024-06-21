@@ -227,7 +227,7 @@ INSERT INTO language (language_name, language_family_id) VALUES
 
 -- Insert Values for residency_status
 INSERT INTO residency_status (residency_status_category) VALUES 
-('Non-immigrant citizen”'), 
+('Non-immigrant citizen'), 
 ('Immigrant citizen or permanent resident'), 
 ('Other temporary resident permit');
 
