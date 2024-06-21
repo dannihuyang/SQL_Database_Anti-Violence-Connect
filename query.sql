@@ -107,9 +107,9 @@ SELECT
     / COUNT(CASE WHEN intervention_status_name != 'Closed'
 			AND intervention_status_name != 'Escalated' THEN 1 END), 1) as effective_12_months,
     ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' AND DATEDIFF(intervention_end_date, intervention_start_date) <= (365 * 2) THEN 1 ELSE 0 END) 
-    / COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as effective_24_months,
+    / COUNT(CASE WHEN intervention_status_name != 'Closed' 
+			AND intervention_status_name != 'Escalated' THEN 1 END), 1) as effective_24_months,
     ROUND(AVG(CASE WHEN intervention_status_name = 'Effective' 
-		AND intervention_status_name != 'Escalated'
         THEN DATEDIFF(intervention_end_date, intervention_start_date) END), 0) 
         as average_duration
 FROM violence_category
