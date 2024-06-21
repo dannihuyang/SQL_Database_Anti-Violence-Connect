@@ -1,0 +1,19 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+data = pd.read_csv('/Users/william/Desktop/24 Summer/CS 5200/project/violence_location.csv')
+
+
+pivot_table = data.pivot(index="location", columns="violence_category", values="num_incident")
+
+
+pivot_table = pivot_table.fillna(0).astype(int)
+
+
+plt.figure(figsize=(12, 8))
+sns.heatmap(pivot_table, annot=True, fmt="d", cmap="YlGnBu")
+plt.title('Incidents of Violence by Location and Category')
+plt.xlabel('Violence Category')
+plt.ylabel('Location')
+plt.show()
