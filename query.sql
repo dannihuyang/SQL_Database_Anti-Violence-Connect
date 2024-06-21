@@ -10,8 +10,7 @@ which means there will be multiple intervention created to meet the same inciden
 For each violence category’s various need (category of need), how many needs have been requested? 
 What is the percentage of intervention being effective out of all interventions 
 (excluding the ones that are closed and escalated) for each pairing of violence category and need? 
-List the pairing with the top 5 most number of need requested to match volunteers with, 
-show how effective the corresponding interventions were.
+List the top 3 largest number of need requested for each violence category.
 
 * assuming as long as there is an incident with need, an intervention is automatically generally as pending
 thus if there are 9 incident-need pair, there will automatically be 9 interventions
@@ -20,49 +19,35 @@ Potential Insights: By identifying the pairings with the highest number of needs
 a low effectiveness percentage, volunteeres and organizations can prioritize resources and attention towards 
 the most critical areas. This can help ensure that the most prevalent needs are addressed promptly and adequately.
 */
-SELECT 
-	violence_category_name as violence_category,
-	need_name,
-    count(need_name) as num_of_need,
-	ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
-	/ COUNT(CASE WHEN intervention_status_name != 'Closed' 
-					  AND intervention_status_name != 'Escalated' THEN 1 END), 1) as per_effective
-FROM violence_category
-JOIN incident USING (violence_category_id)
-JOIN incident_need_list USING (incident_id)
-JOIN need USING (need_id)
-JOIN intervention USING (incident_need_id)
-JOIN intervention_status USING (intervention_status_id)
-GROUP BY violence_category, need_name
-ORDER BY num_of_need DESC
-LIMIT 5;
 
--- show top 3 needs of each violence
-WITH RankedNeeds AS (
+WITH ViolenceNeedPairing AS ( # use WITH for temporary reference to use with SELECT query
     SELECT 
-        vc.violence_category_name AS violence_category,
-        n.need_name,
-        COUNT(n.need_name) AS num_of_need,
-        ROUND(100.0 * SUM(CASE WHEN int_status.intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
-            / COUNT(CASE WHEN int_status.intervention_status_name != 'Closed' 
-                          AND int_status.intervention_status_name != 'Escalated' THEN 1 END), 1) AS per_effective,
-        ROW_NUMBER() OVER (PARTITION BY vc.violence_category_name ORDER BY COUNT(n.need_name) DESC) AS rn
+        violence_category_name AS violence_category,
+        need_name,
+        COUNT(need_name) AS num_of_need,
+        ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
+            / COUNT(CASE WHEN intervention_status_name != 'Closed' 
+                          AND intervention_status_name != 'Escalated' THEN 1 END), 1) AS per_effective,
+        ROW_NUMBER() OVER ( # assign a sequential interger to rows with paritition
+			PARTITION BY violence_category_name # calculation restarts for each partition (grouping)
+            ORDER BY COUNT(need_name) DESC # ranking from least effective on top
+		) AS NeedEachViolenceRanked
     FROM violence_category vc
-    JOIN incident i ON vc.violence_category_id = i.violence_category_id
-    JOIN incident_need_list inl ON i.incident_id = inl.incident_id
-    JOIN need n ON inl.need_id = n.need_id
-    JOIN intervention intv ON inl.incident_need_id = intv.incident_need_id
-    JOIN intervention_status int_status ON intv.intervention_status_id = int_status.intervention_status_id
-    GROUP BY vc.violence_category_name, n.need_name
+    JOIN incident USING (violence_category_id)
+	JOIN incident_need_list USING (incident_id)
+	JOIN need USING (need_id)
+	JOIN intervention USING (incident_need_id)
+	JOIN intervention_status USING (intervention_status_id)
+    GROUP BY violence_category_name, need_name
 )
 SELECT 
     violence_category,
     need_name,
     num_of_need,
     per_effective
-FROM RankedNeeds
-WHERE rn <= 3
-ORDER BY violence_category, num_of_need DESC;
+FROM ViolenceNeedPairing
+WHERE NeedEachViolenceRanked <= 3 # only include the top three ranked needs for each violence
+ORDER BY violence_category;
 
 /*
 Query 2: Violence-Location Statistics
