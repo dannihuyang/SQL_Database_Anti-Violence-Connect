@@ -1,12 +1,17 @@
 USE anti_violence;
 
 
-/* 1. (Resource/Need satisfaction) 
+/* 
+Query 1: On Incident-Need Satisfaction
+
 As each intervention is directing addressing an incident’s unique need, 
 which means there will be multiple intervention created to meet the same incident’s different needs. 
 
+For each violence category’s various need (category of need), how many needs have been requested? 
 What is the percentage of intervention being effective out of all interventions 
-in terms of each violence category’s different needs of an incident?
+(excluding the ones that are closed and escalated) for each pairing of violence category and need? 
+List the pairing with the top 5 most number of need requested to match volunteers with, 
+show how effective the corresponding interventions were.
 
 * assuming as long as there is an incident with need, an intervention is automatically generally as pending
 thus if there are 9 incident-need pair, there will automatically be 9 interventions
@@ -14,8 +19,10 @@ thus if there are 9 incident-need pair, there will automatically be 9 interventi
 SELECT 
 	violence_category_name as violence_category,
 	need_name,
+    count(need_name) as num_of_need,
 	ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
-	/ COUNT(CASE WHEN intervention_status_name != 'Closed' THEN 1 END), 1) as per_effective
+	/ COUNT(CASE WHEN intervention_status_name != 'Closed' 
+					  AND intervention_status_name != 'Escalated' THEN 1 END), 1) as per_effective
 FROM violence_category
 JOIN incident USING (violence_category_id)
 JOIN incident_need_list USING (incident_id)
@@ -23,7 +30,8 @@ JOIN need USING (need_id)
 JOIN intervention USING (incident_need_id)
 JOIN intervention_status USING (intervention_status_id)
 GROUP BY violence_category, need_name
-ORDER BY violence_category, need_name;
+ORDER BY num_of_need DESC
+LIMIT 5;
 
 
 /*
