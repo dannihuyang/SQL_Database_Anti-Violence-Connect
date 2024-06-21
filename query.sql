@@ -15,6 +15,10 @@ show how effective the corresponding interventions were.
 
 * assuming as long as there is an incident with need, an intervention is automatically generally as pending
 thus if there are 9 incident-need pair, there will automatically be 9 interventions
+
+Potential Insights: By identifying the pairings with the highest number of needs requested as well as if it has 
+a low effectiveness percentage, volunteeres and organizations can prioritize resources and attention towards 
+the most critical areas. This can help ensure that the most prevalent needs are addressed promptly and adequately.
 */
 SELECT 
 	violence_category_name as violence_category,
@@ -40,6 +44,10 @@ Query 2: Violence-Location Statistics
 For each location, what type of violence happen and how many incidents? 
 For each location and violence pairing, list the number of incidents in descending order. 
 Show the top 10 most number of incident pairing.
+
+Potential Insights: By examining the most frequent location-violence pairings, 
+we can discern trends and patterns, which may indicate underlying social, economic, 
+political or cultural factors contributing to violence in specific areas.
 */
 SELECT 
 	location_name as location,
@@ -54,10 +62,16 @@ LIMIT 10;
 
 
 /*
-3. (Help seeker - Residency Status - Incident, statistics) 
-For help seekers with different residency status, what kind of violence (violence_category) do they face the most, 
+Query 3: On Help Seeker Statistics - Residency Status
+
+For help seekers with different residency status, what kind of violence do they face the most, 
 show the number of incidents happen for different pairs of residency status and violence category? 
-Which pair experience the most violent incidents?
+Which pair experiences the most violent incidents? 
+Show the top 10 most number of incident pairing.
+
+Potential Insights: The findings can inform community outreach and education programs. 
+For instance, if workplace violence is particularly high among permanent residents, 
+targeted workplace safety and rights education campaigns can be implemented.
 */
 SELECT 
 	residency_status_category,
@@ -68,9 +82,10 @@ JOIN residency_status USING (residency_status_id)
 JOIN incident USING (help_seeker_id)
 JOIN violence_category USING (violence_category_id)
 GROUP BY residency_status_category, violence_category_name
-ORDER BY num_incident;
+ORDER BY num_incident DESC
+LIMIT 10;
 
-/*
+
 4. (Intervention - Violence Category - Effectiveness/Time) 
 For each violence category, 
 show the percentage of interventions being effective out of all interventions (excluding cases where intervention status = “closed”) 
