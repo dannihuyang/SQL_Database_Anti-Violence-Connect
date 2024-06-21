@@ -122,7 +122,7 @@ ORDER BY average_duration DESC;
 
 
 /*
-Query 5:  On Intervention Effectiveness if with Functional Needs
+Query 5.1:  On Intervention Effectiveness if with Functional Needs
 
 Since functional_need’s relationship with incident_need still need other implementations, 
 this query can be currently used as a hypothetical analysis. 
@@ -176,7 +176,9 @@ SELECT
     (SELECT effective_12_months_without_fn FROM EffectiveWithoutFunctionalNeed) AS 12_months_without_fn;
 	 
     
-/* step 2 
+/* 
+Query 5.2:  On Intervention Effectiveness with Each Functional Need
+
 Are there any correlations between what the help seeker’s functional needs are and whether the interventions
 are successfully resolved or not within a long enough period of time (12 months)? 
 For each kind of functional need of help seekers, what are the percentage of the interventions being effective, 
