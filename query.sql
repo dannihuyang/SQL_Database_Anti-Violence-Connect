@@ -86,6 +86,16 @@ GROUP BY violence_category_name, location_name
 ORDER BY num_incident DESC
 LIMIT 10;
 
+-- Show the number of incidents of all types of violence in each location
+SELECT 
+    location_name as location,
+    violence_category_name as violence_category, 
+    COUNT(incident_id) as num_incident
+FROM violence_category
+JOIN incident USING (violence_category_id)
+JOIN location USING (location_id)
+GROUP BY location_name, violence_category_name
+ORDER BY location_name, num_incident DESC;
 
 /*
 Query 3: On Help Seeker Statistics - Residency Status
