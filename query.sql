@@ -35,22 +35,22 @@ LIMIT 5;
 
 
 /*
-2. (Violence-location statistics) 
-For each violence category, how many incidents happened in different locations in Vancouver? 
-For each violence category, list the top three location with the corresponding number of incidents.
+Query 2: Violence-Location Statistics
 
-To limit the number of rows for each category, 
-we need to use a stored procedure in mySQL or variables in PostgreSQL, Oracle which support window functions.
+For each location, what type of violence happen and how many incidents? 
+For each location and violence pairing, list the number of incidents in descending order. 
+Show the top 10 most number of incident pairing.
 */
 SELECT 
-	violence_category_name as violence_category, 
 	location_name as location,
+	violence_category_name as violence_category, 
 	COUNT(incident_id) as num_incident
 FROM violence_category
 JOIN incident USING (violence_category_id)
 JOIN location USING (location_id)
 GROUP BY violence_category_name, location_name
-ORDER BY violence_category, num_incident;
+ORDER BY num_incident DESC
+LIMIT 10;
 
 
 /*
