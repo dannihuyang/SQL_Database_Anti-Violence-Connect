@@ -244,5 +244,6 @@ JOIN need USING (need_id)
 JOIN intervention USING (incident_need_id)
 JOIN intervention_status USING (intervention_status_id)
 GROUP BY language_family_name, need_name
-HAVING per_effective <= 60.0
+HAVING per_effective IS NOT NULL
+-- HAVING per_effective <= 60.0
 ORDER BY per_effective;
