@@ -2,7 +2,13 @@ DROP DATABASE IF EXISTS anti_violence;
 CREATE DATABASE IF NOT EXISTS anti_violence;
 USE anti_violence;
 
--- Basic Information Part
+-- Basic Entities (10 tables)
+-- violence_category
+CREATE TABLE violence_category (
+    violence_category_id INT PRIMARY KEY AUTO_INCREMENT,
+    violence_category_name VARCHAR(50) NOT NULL
+);
+
 -- gender
 CREATE TABLE gender (
     gender_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -47,14 +53,20 @@ CREATE TABLE location (
     location_name VARCHAR(50) NOT NULL
 );
 
--- Specialty and Resource
 -- specialty
 CREATE TABLE specialty (
     specialty_id INT PRIMARY KEY AUTO_INCREMENT,
     specialty_name VARCHAR(50) NOT NULL
 );
 
--- Help Seeker Part
+-- intervention_status
+CREATE TABLE intervention_status (
+    intervention_status_id INT PRIMARY KEY AUTO_INCREMENT,
+    intervention_status_name VARCHAR(50) NOT NULL
+);
+
+
+-- User Case Entities (9 tables)
 -- help_seeker
 CREATE TABLE help_seeker (
     help_seeker_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -86,7 +98,6 @@ CREATE TABLE help_seeker_functional_need (
     FOREIGN KEY (functional_need_id) REFERENCES functional_need(functional_need_id)
 );
 
--- Info of Volunteers
 -- volunteer
 CREATE TABLE volunteer (
     volunteer_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -122,12 +133,6 @@ CREATE TABLE volunteer_has_resource_list (
     FOREIGN KEY (need_id) REFERENCES need(need_id)
 );
 
--- Incident
--- violence_category
-CREATE TABLE violence_category (
-    violence_category_id INT PRIMARY KEY AUTO_INCREMENT,
-    violence_category_name VARCHAR(50) NOT NULL
-);
 
 -- incident
 CREATE TABLE incident (
@@ -153,11 +158,6 @@ CREATE TABLE incident_need_list (
     UNIQUE (incident_id, need_id)
 );
 
--- intervention_status
-CREATE TABLE intervention_status (
-    intervention_status_id INT PRIMARY KEY AUTO_INCREMENT,
-    intervention_status_name VARCHAR(50) NOT NULL
-);
 
 -- intervention
 CREATE TABLE intervention (
@@ -1397,3 +1397,39 @@ INSERT INTO volunteer_language (volunteer_id, language_id) VALUES
 (49, 1),
 (50, 3),
 (50, 14);    
+
+-- Procedure to delete the invalid entries in intervention table 
+-- where volunteers has unmatched resources to needs (result: 173/180 interventions left).
+DROP PROCEDURE IF EXISTS delete_ineligible_interventions;
+
+DELIMITER //
+
+CREATE PROCEDURE delete_ineligible_interventions()
+BEGIN
+    -- Create a temporary table to store IDs of ineligible interventions
+    CREATE TEMPORARY TABLE temp_ineligible_interventions
+    AS
+    SELECT incident_need_id
+    FROM intervention
+    LEFT JOIN incident_need_list USING (incident_need_id)
+    LEFT JOIN volunteer_has_resource_list USING (volunteer_id)
+    WHERE incident_need_list.need_id = volunteer_has_resource_list.need_id;
+
+    -- Delete from intervention table using the temporary table
+    DELETE FROM intervention
+    WHERE incident_need_id NOT IN (SELECT incident_need_id FROM temp_ineligible_interventions);
+
+    -- Drop the temporary table
+    DROP TEMPORARY TABLE temp_ineligible_interventions;
+END;
+//
+DELIMITER ;
+
+-- Disable safe update mode
+SET SQL_SAFE_UPDATES = 0;
+
+-- Call the procedure to delete invalid entries;
+CALL delete_ineligible_interventions();
+
+-- Re-enable safe update mode
+SET SQL_SAFE_UPDATES = 1;
