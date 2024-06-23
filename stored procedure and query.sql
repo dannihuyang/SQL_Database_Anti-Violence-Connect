@@ -1,6 +1,98 @@
 USE anti_violence;
 
+/* procedure to create interventions for an incident of a help seeker.
 
+This is done after the operations of storing volunteer and help_seeker information, 
+									 creating incident, need, and incident_need_list.
+
+Since there might be several needs an incident involves, the JOIN table incident_need_list would
+include several matchings of incident and need. Thus, multiple interventions need to be created
+to address these different pairings of incident_need.
+
+Note: Not updating volunteer's availability after chosen, 
+since one volunteer can intervene with multiple cases. 
+Volunteer's availabity should be updated by themselves on the app.
+*/
+DROP PROCEDURE IF EXISTS create_intervention_with_incident_id;
+
+DELIMITER //
+
+CREATE PROCEDURE create_intervention_with_incident_id(
+	IN incident_id_param INT)
+BEGIN
+    DECLARE incident_need_id_var INT;
+    DECLARE need_id_var INT;
+    DECLARE volunteer_id_var INT;
+	###########row################
+    DECLARE row_not_found TINYINT DEFAULT FALSE; 
+    
+    -- cursor to fetch incident needs because there might be multiple
+    DECLARE incident_need_cursor CURSOR FOR         
+	SELECT incident_need_id, need_id
+    FROM incident_need_list
+    WHERE incident_id = incident_id_param;
+	
+    -- continue handler, continue after finding an exception, don't just crash
+	DECLARE CONTINUE HANDLER FOR NOT FOUND
+		SET row_not_found = TRUE;
+	
+	OPEN incident_need_cursor;
+    
+    -- read one row first (into the two variables)
+    FETCH incident_need_cursor INTO incident_need_id_var, need_id_var;
+    
+    -- then while loop
+    WHILE row_not_found = FALSE DO # meaning we found the row
+		
+        -- Find 1 volunteer to fulfill the need
+		SELECT volunteer_id INTO volunteer_id_var
+        FROM volunteer_has_resource_list
+        JOIN volunteer USING (volunteer_id)
+        WHERE need_id = need_id_var
+        AND availability = 1
+        LIMIT 1;
+        
+        -- Create intervention
+        IF volunteer_id_var IS NOT NULL THEN
+			INSERT INTO intervention(
+				incident_need_id, 
+                volunteer_id, 
+                intervention_start_date, 
+                intervention_status_id)
+            VALUES (
+				incident_need_id_var,
+                volunteer_id_var,
+                CURDATE(),
+                1); -- 1 is for the intervention status 'Pending'
+		END IF;
+        
+        -- read next row (ready after done the insert)
+        FETCH incident_need_cursor INTO incident_need_id_var, need_id_var; 
+	END WHILE;
+    
+    CLOSE incident_need_cursor;
+    
+END;
+//
+DELIMITER ;
+
+-- Test cases:
+-- Check current intervention # of rows
+SELECT *
+FROM intervention; 
+
+-- Call the procedure with an incident_id
+CALL  create_intervention_with_incident_id(5);
+
+-- Check updated intervention # of rows
+SELECT *
+FROM intervention
+JOIN incident_need_list USING (incident_need_id)
+JOIN incident USING (incident_id)
+WHERE incident_id = 5
+AND intervention_start_date = CURDATE(); 
+
+	    
 /* 
 Query 1: On Incident-Need Satisfaction
 
