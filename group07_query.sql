@@ -23,6 +23,7 @@ to address these different pairings of incident_need.
 Note: Not updating volunteer's availability after chosen, since one volunteer can intervene with multiple cases. 
 Volunteer's availabity should be updated by themselves on the app.
 */
+
 DROP PROCEDURE IF EXISTS create_intervention_with_incident_id;
 
 DELIMITER //
