@@ -30,6 +30,7 @@ to address these different pairings of incident_need.
 There will be no updating of the volunteer's availability after chosen, since one volunteer can intervene with multiple cases in reality depending on 
 how much they want to commit. Volunteer's availability should be updated by themselves on the app.
 
+However, in the future, we could implement TRIGGER operations to better the logic of matching volunteers for each incident need.
 */
 
 DROP PROCEDURE IF EXISTS create_intervention_with_incident_id;
