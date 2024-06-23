@@ -13,7 +13,7 @@ in a prior control way for reference ((also see group07_query.sql).
 
 /* 
 Stored Procedure 1: delete the invalid entries in intervention table after mock data insertion
-where volunteers has unmatched resources to needs (result: 172/180 interventions left).
+where volunteers have unmatched resources to needs (result: 172/180 interventions left).
 */
 DROP PROCEDURE IF EXISTS delete_ineligible_interventions;
 
