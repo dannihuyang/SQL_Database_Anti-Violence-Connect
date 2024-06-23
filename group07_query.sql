@@ -14,14 +14,16 @@ with help seekers is crucial for our user case. However, for the queries, we are
 
 Stored Procedure to create interventions for an incident of a help seeker.
 
-This is done after the operations of storing volunteer and help_seeker information, creating incident, need, and incident_need_list.
+As for using this to create interventions in the actual application, this procedure is intended to be run after the operations of storing volunteer 
+and help_seeker information, creating incident, need, and incident_need_list.
 
 Since there might be several needs an incident involves, the JOIN table incident_need_list would
 include several matchings of incident and need. Thus, multiple interventions need to be created
 to address these different pairings of incident_need.
 
-Note: Not updating volunteer's availability after chosen, since one volunteer can intervene with multiple cases. 
-Volunteer's availabity should be updated by themselves on the app.
+There will be no updating of the volunteer's availability after chosen, since one volunteer can intervene with multiple cases in reality depending on 
+how much they want to commit. Volunteer's availability should be updated by themselves on the app.
+
 */
 
 DROP PROCEDURE IF EXISTS create_intervention_with_incident_id;
