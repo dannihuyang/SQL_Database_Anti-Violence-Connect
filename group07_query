@@ -1,16 +1,26 @@
+/*
+This file includes 1 stored procedure to create interventions to match volunteer with help seekers in order to demonstrate
+the app's main function. It also includes 7 queries (5.1 and 5.2 as two queries) to implement data analysis based on a mock
+data sample for the app users and organizations to understand the violence issues more in depth as to further their volunteering work.
+*/
+
 USE anti_violence;
 
-/* procedure to create interventions for an incident of a help seeker.
+/* 
+** Note: 
+This procedure is implemented after mocking data, writing other queries and writing the report. As we have focused more on analyzing
+the cultural and social aspects of the cases for our app previously, we found that creating a stored procedure to match volunteers 
+with help seekers is crucial for our user case. However, for the queries, we are still using our mocked data with already inserted interventions.
 
-This is done after the operations of storing volunteer and help_seeker information, 
-									 creating incident, need, and incident_need_list.
+Stored Procedure to create interventions for an incident of a help seeker.
+
+This is done after the operations of storing volunteer and help_seeker information, creating incident, need, and incident_need_list.
 
 Since there might be several needs an incident involves, the JOIN table incident_need_list would
 include several matchings of incident and need. Thus, multiple interventions need to be created
 to address these different pairings of incident_need.
 
-Note: Not updating volunteer's availability after chosen, 
-since one volunteer can intervene with multiple cases. 
+Note: Not updating volunteer's availability after chosen, since one volunteer can intervene with multiple cases. 
 Volunteer's availabity should be updated by themselves on the app.
 */
 DROP PROCEDURE IF EXISTS create_intervention_with_incident_id;
@@ -35,7 +45,7 @@ BEGIN
     -- continue handler, continue after finding an exception, don't just crash
 	DECLARE CONTINUE HANDLER FOR NOT FOUND
 		SET row_not_found = TRUE;
-	
+        
 	OPEN incident_need_cursor;
     
     -- read one row first (into the two variables)
@@ -91,6 +101,20 @@ JOIN incident_need_list USING (incident_need_id)
 JOIN incident USING (incident_id)
 WHERE incident_id = 5
 AND intervention_start_date = CURDATE(); 
+
+-- Delete this test case so the sample size of our mock data does not change
+DELETE FROM intervention
+WHERE intervention_start_date = CURDATE()
+AND incident_need_id IN (
+	SELECT incident_need_id
+    FROM incident_need_list
+    WHERE incident_id = 5
+);
+
+-- Check restored intervention # of rows
+SELECT *
+FROM intervention; 
+
 
 	    
 /* 
@@ -174,33 +198,10 @@ JOIN location USING (location_id)
 GROUP BY location_name, violence_category_name
 ORDER BY location_name, num_incident DESC;
 
-/*
-Query 3: On Help Seeker Statistics - Residency Status
-
-For help seekers with different residency status, what kind of violence do they face the most, 
-show the number of incidents happen for different pairs of residency status and violence category? 
-Which pair experiences the most violent incidents? 
-Show the top 10 most number of incident pairing.
-
-Potential Insights: The findings can inform community outreach and education programs. 
-For instance, if workplace violence is particularly high among permanent residents, 
-targeted workplace safety and rights education campaigns can be implemented.
-*/
-SELECT 
-	residency_status_category,
-	violence_category_name,
-	COUNT(incident_id) as num_incident
-FROM help_seeker
-JOIN residency_status USING (residency_status_id)
-JOIN incident USING (help_seeker_id)
-JOIN violence_category USING (violence_category_id)
-GROUP BY residency_status_category, violence_category_name
-ORDER BY num_incident DESC
-LIMIT 10;
 
 
 /* 
-Query 4: On Intervention - Effectiveness Over Time
+Query 3: On Intervention - Effectiveness Over Time
 
 For each violence category, 
 show the percentage of interventions being effective out of all interventions (excluding cases where intervention status = “closed”) 
@@ -233,7 +234,31 @@ JOIN intervention_status USING (intervention_status_id)
 GROUP BY violence_category_name
 ORDER BY average_duration DESC;
 
+/*
+Query 4: On Language Family - Need Satisfaction
 
+For each different language family, which needs (such as shelter, food, medical care, etc.) are the least satisfied? 
+Calculate the satisfaction rate (i.e., the proportion of effective interventions, with no time limit) 
+for each need within each language family, order from least percentage of effectiveness to most. 
+Show the satisfaction rate that is lower than 60%.
+*/
+SELECT 
+	language_family_name as language_family,
+    need_name,
+    ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
+    / COUNT(CASE WHEN intervention_status_name != 'Closed'
+			AND intervention_status_name != 'Escalated' THEN 1 END), 1) as per_effective
+FROM language_family
+JOIN language USING (language_family_id)
+JOIN help_seeker_language USING (language_id)
+JOIN help_seeker USING (help_seeker_id)
+JOIN incident USING (help_seeker_id)
+JOIN incident_need_list USING (incident_id)
+JOIN need USING (need_id)
+JOIN intervention USING (incident_need_id)
+JOIN intervention_status USING (intervention_status_id)
+GROUP BY language_family_name, need_name;
+	
 /*
 Query 5.1:  On Intervention Effectiveness if with Functional Needs
 
@@ -312,30 +337,30 @@ JOIN intervention_status USING (intervention_status_id)
 GROUP BY functional_need_name
 ORDER BY effective_12_months;
 
-/*
-Query 6: On Language Family - Need Satisfaction
 
-For each different language family, which needs (such as shelter, food, medical care, etc.) are the least satisfied? 
-Calculate the satisfaction rate (i.e., the proportion of effective interventions, with no time limit) 
-for each need within each language family, order from least percentage of effectiveness to most. 
-Show the satisfaction rate that is lower than 60%.
+/*
+Query 6: On Help Seeker Statistics - Residency Status
+
+For help seekers with different residency status, what kind of violence do they face the most, 
+show the number of incidents happen for different pairs of residency status and violence category? 
+Which pair experiences the most violent incidents? 
+Show the top 10 most number of incident pairing.
+
+Potential Insights: The findings can inform community outreach and education programs. 
+For instance, if workplace violence is particularly high among permanent residents, 
+targeted workplace safety and rights education campaigns can be implemented.
 */
 SELECT 
-	language_family_name as language_family,
-    need_name,
-    ROUND(100.0 * SUM(CASE WHEN intervention_status_name = 'Effective' THEN 1 ELSE 0 END) 
-    / COUNT(CASE WHEN intervention_status_name != 'Closed'
-			AND intervention_status_name != 'Escalated' THEN 1 END), 1) as per_effective
-FROM language_family
-JOIN language USING (language_family_id)
-JOIN help_seeker_language USING (language_id)
-JOIN help_seeker USING (help_seeker_id)
+	residency_status_category,
+	violence_category_name,
+	COUNT(incident_id) as num_incident
+FROM help_seeker
+JOIN residency_status USING (residency_status_id)
 JOIN incident USING (help_seeker_id)
-JOIN incident_need_list USING (incident_id)
-JOIN need USING (need_id)
-JOIN intervention USING (incident_need_id)
-JOIN intervention_status USING (intervention_status_id)
-GROUP BY language_family_name, need_name
+JOIN violence_category USING (violence_category_id)
+GROUP BY residency_status_category, violence_category_name
+ORDER BY num_incident DESC
+LIMIT 10;
 HAVING per_effective IS NOT NULL
 -- HAVING per_effective <= 60.0
 ORDER BY per_effective;
