@@ -1398,8 +1398,10 @@ INSERT INTO volunteer_language (volunteer_id, language_id) VALUES
 (50, 3),
 (50, 14);    
 
--- Procedure to delete the invalid entries in intervention table 
--- where volunteers has unmatched resources to needs (result: 173/180 interventions left).
+/* 
+Stored Procedure: delete the invalid entries in intervention table after mock data insertion
+where volunteers has unmatched resources to needs (result: 172/180 interventions left).
+*/
 DROP PROCEDURE IF EXISTS delete_ineligible_interventions;
 
 DELIMITER //
@@ -1433,3 +1435,7 @@ CALL delete_ineligible_interventions();
 
 -- Re-enable safe update mode
 SET SQL_SAFE_UPDATES = 1;
+
+-- Check restored intervention # of rows
+SELECT *
+FROM intervention; 
