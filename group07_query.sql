@@ -267,7 +267,10 @@ JOIN incident_need_list USING (incident_id)
 JOIN need USING (need_id)
 JOIN intervention USING (incident_need_id)
 JOIN intervention_status USING (intervention_status_id)
-GROUP BY language_family_name, need_name;
+GROUP BY language_family_name, need_name
+HAVING per_effective IS NOT NULL
+-- HAVING per_effective <= 60.0
+ORDER BY per_effective;
 	
 /*
 Query 5.1:  On Intervention Effectiveness if with Functional Needs
@@ -320,8 +323,8 @@ EffectiveWithoutFunctionalNeed AS (
 SELECT
 	(SELECT effective_6_months_with_fn FROM EffectiveWithFunctionalNeed) AS 6_months_with_fn,
 	(SELECT effective_6_months_without_fn FROM EffectiveWithoutFunctionalNeed) AS 6_months_without_fn,
-    (SELECT effective_12_months_with_fn FROM EffectiveWithFunctionalNeed) AS 12_months_with_fn,
-    (SELECT effective_12_months_without_fn FROM EffectiveWithoutFunctionalNeed) AS 12_months_without_fn;
+    	(SELECT effective_12_months_with_fn FROM EffectiveWithFunctionalNeed) AS 12_months_with_fn,
+    	(SELECT effective_12_months_without_fn FROM EffectiveWithoutFunctionalNeed) AS 12_months_without_fn;
 	 
     
 /* 
@@ -371,6 +374,4 @@ JOIN violence_category USING (violence_category_id)
 GROUP BY residency_status_category, violence_category_name
 ORDER BY num_incident DESC
 LIMIT 10;
-HAVING per_effective IS NOT NULL
--- HAVING per_effective <= 60.0
-ORDER BY per_effective;
+
