@@ -7,10 +7,16 @@ data sample for the app users and organizations to understand the violence issue
 USE anti_violence;
 
 /* 
-** Note: 
-This procedure is implemented after mocking data, writing other queries and writing the report. As we have focused more on analyzing
-the cultural and social aspects of the cases for our app previously, we found that creating a stored procedure to match volunteers 
-with help seekers is crucial for our user case. However, for the queries, we are still using our mocked data with already inserted interventions.
+** Note:
+This procedure is designed after we finished mocking data, writing queries, and data analysis in the report. Originally we have 
+implemented a stored procedure (refer to group07_stored_procedures.sql - PROCEDURE delete_ineligible_interventions) to delete
+invalid intervention mock data entries afterwards, where volunteers' resources are mismatched with needs. However, we found that
+a prior control makes more sense in the functional logic and is crucial for validating our user cases, so we create this alternative
+stored procedure for reference, which is more comprehensive and prudent. 
+
+For the queries, we are still using our mocked data with already inserted interventions.
+
+-----------
 
 Stored Procedure to create interventions for an incident of a help seeker.
 
