@@ -1400,7 +1400,7 @@ INSERT INTO volunteer_language (volunteer_id, language_id) VALUES
 
 /* 
 Stored Procedure: delete the invalid entries in intervention table after mock data insertion
-where volunteers has unmatched resources to needs (result: 172/180 interventions left).
+where volunteers have unmatched resources to needs (result: 172/180 interventions left).
 */
 DROP PROCEDURE IF EXISTS delete_ineligible_interventions;
 
