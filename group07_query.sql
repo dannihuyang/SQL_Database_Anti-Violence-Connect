@@ -11,8 +11,8 @@ USE anti_violence;
 This procedure is designed after we finished mocking data, writing queries, and data analysis in the report. Originally we have 
 implemented a stored procedure (refer to group07_stored_procedures.sql - PROCEDURE delete_ineligible_interventions) to delete
 invalid intervention mock data entries afterwards, where volunteers' resources are mismatched with needs. However, we found that
-a prior control makes more sense in the functional logic and is crucial for validating our user cases, so we create this alternative
-stored procedure for reference, which is more comprehensive and prudent. 
+a prior control makes more sense in the functional logic and is crucial for validating our user cases, so we created this alternative
+stored procedure for reference, which is more comprehensive for our main app feature. 
 
 For the queries, we are still using our mocked data with already inserted interventions.
 
