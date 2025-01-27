@@ -65,31 +65,15 @@ Two key stored procedures automate operations:
 
 Through **analysis** of the **mock data** generated for the platform, we **simulate real-world scenarios** and **reference literature** on violence and support services, revealing several key insights:
 
-<div style="width: 100%; 
-            overflow-x: auto; 
-            white-space: nowrap; 
-            padding-bottom: 15px; 
-            background: #f8f9fa; 
-            border-radius: 8px;">
-    <div style="padding: 10px;">
-        <img src="./query_data_visualization/query_image/effective_interventions_langugage_family_need.png" alt="Language Family Impact" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <img src="./query_data_visualization/query_image/effectiveness_functional_needs_over_time.png" alt="Functional Needs" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <img src="./query_data_visualization/query_image/need_violence_category.png" alt="Needs Distribution" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <img src="./query_data_visualization/query_image/intervention_duration.png" alt="Intervention Duration" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <img src="./query_data_visualization/query_image/residency_status_violence_category.png" alt="Residency Status" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    </div>
+<div style="overflow-x: scroll; white-space: nowrap;">
+<img src="./query_data_visualization/query_image/effective_interventions_langugage_family_need.png" alt="Language Family Impact" width="400px" style="display: inline-block;">
+<img src="./query_data_visualization/query_image/effectiveness_functional_needs_over_time.png" alt="Functional Needs" width="400px" style="display: inline-block;">
+<img src="./query_data_visualization/query_image/need_violence_category.png" alt="Needs Distribution" width="400px" style="display: inline-block;">
+<img src="./query_data_visualization/query_image/intervention_duration.png" alt="Intervention Duration" width="400px" style="display: inline-block;">
+<img src="./query_data_visualization/query_image/residency_status_violence_category.png" alt="Residency Status" width="400px" style="display: inline-block;">
 </div>
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
-    <span style="display: inline-block; 
-                 padding: 8px 15px; 
-                 background: #f1f1f1; 
-                 border-radius: 15px; 
-                 font-size: 0.9em; 
-                 color: #666;">
-        ← Scroll horizontally to view all visualizations →
-    </span>
-</div>
+*⬅️ Scroll horizontally to view all visualizations ➡️*
 
 ## Project Structure 📁
 
