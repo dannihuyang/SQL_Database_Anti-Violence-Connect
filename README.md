@@ -61,19 +61,25 @@ Two key stored procedures automate operations:
 - 🔍 **Filter Interventions**:
   - Remove invalid interventions to ensure accuracy and effectiveness.
 
-## Data Analysis Visualization 📈
+## Data Analysis and Insights 📊
 
-Through **analysis** of the **mock data** generated for the platform, we **simulate real-world scenarios** and **reference literature** on violence and support services, revealing several key insights:
+Through **analysis** of the **mock data** generated for the platform, we simulate real-world scenarios and reference literature on violence and support services, revealing several key insights:
 
-<div style="overflow-x: scroll; white-space: nowrap;">
-<img src="./query_data_visualization/query_image/effective_interventions_langugage_family_need.png" alt="Language Family Impact" width="400px" style="display: inline-block;">
-<img src="./query_data_visualization/query_image/effectiveness_functional_needs_over_time.png" alt="Functional Needs" width="400px" style="display: inline-block;">
-<img src="./query_data_visualization/query_image/need_violence_category.png" alt="Needs Distribution" width="400px" style="display: inline-block;">
-<img src="./query_data_visualization/query_image/intervention_duration.png" alt="Intervention Duration" width="400px" style="display: inline-block;">
-<img src="./query_data_visualization/query_image/residency_status_violence_category.png" alt="Residency Status" width="400px" style="display: inline-block;">
+<div align="center">
+
+<div align="center" style="overflow-x: auto; max-width: 100%; padding: 20px 0;">
+    <div align="center" style="white-space: nowrap; min-width: 100%; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+        <img src="./query_data_visualization/query_image/effective_interventions_langugage_family_need.png" alt="Language Family Impact" width="400px" align="center" style="margin: 0 10px; border-radius: 4px;">
+        <img src="./query_data_visualization/query_image/effectiveness_functional_needs_over_time.png" alt="Functional Needs" width="400px" align="center" style="margin: 0 10px; border-radius: 4px;">
+        <img src="./query_data_visualization/query_image/need_violence_category.png" alt="Needs Distribution" width="400px" align="center" style="margin: 0 10px; border-radius: 4px;">
+        <img src="./query_data_visualization/query_image/intervention_duration.png" alt="Intervention Duration" width="400px" align="center" style="margin: 0 10px; border-radius: 4px;">
+        <img src="./query_data_visualization/query_image/residency_status_violence_category.png" alt="Residency Status" width="400px" align="center" style="margin: 0 10px; border-radius: 4px;">
+    </div>
 </div>
 
-*⬅️ Scroll horizontally to view all visualizations ➡️*
+<kbd>← Scroll horizontally to view all visualizations →</kbd>
+
+</div>
 
 ## Project Structure 📁
 
