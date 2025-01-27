@@ -6,11 +6,6 @@
 
 Anti-Violence Connect is a database backend platform designed to bridge the gap between help-seekers facing various forms of violence (e.g., domestic violence, intimate partner violence, workplace violence) and volunteers offering critical support. This project aims to provide a streamlined system for managing incidents, needs, and interventions to ensure effective matches between help-seekers and volunteers.
 
-## Key Features:
-
-- Connects victims with specialized volunteers.
-- Handles diverse needs such as shelter, counseling, legal aid, and translation assistance.
-
 ## Motivation
 
 This application was inspired by real-world volunteer work assisting individuals in emergency situations in Shanghai and New York, especially marginalized communities. The goal is to address gaps in support that cannot be fulfilled solely by government or institutional services, offering a community-centered approach.
@@ -24,10 +19,6 @@ The database consists of 19 entities to track. Here are the key entities:
 3. **Incidents**: Records of reported violence cases
 4. **Resources**: Available support services and materials
 5. **Interventions**: Actions taken to assist help-seekers
-
-<details>
-<summary>Click to see all 19 entities</summary>
-
 6. **Languages**: Supported communication languages
 7. **Skills**: Specialized abilities of volunteers
 8. **Locations**: Geographic areas of operation
