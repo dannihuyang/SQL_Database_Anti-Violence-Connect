@@ -1,16 +1,25 @@
-# Anti-Violence Connect
+# Anti-Violence Connect 🤝
 
-![Database Schema](./images/er_diagram.png)
+![User Case Walk-Through](./images/user_case.png)
 
-## Overview
+## Overview 🎯
 
-Anti-Violence Connect is a database backend platform designed to bridge the gap between help-seekers facing various forms of violence (e.g., domestic violence, intimate partner violence, workplace violence) and volunteers offering critical support. This project aims to provide a streamlined system for managing incidents, needs, and interventions to ensure effective matches between help-seekers and volunteers.
+Anti-Violence Connect is a **database backend platform** designed to **bridge the gap between help-seekers** facing **various forms of violence (e.g., domestic violence, intimate partner violence, workplace violence)** and volunteers offering critical support. This project aims to provide a streamlined system for **managing incidents, needs, and interventions** to ensure **effective matches** between help-seekers and volunteers.
 
-## Motivation
+## Motivation 💡
 
-This application was inspired by real-world volunteer work assisting individuals in emergency situations in Shanghai and New York, especially marginalized communities. The goal is to address gaps in support that cannot be fulfilled solely by government or institutional services, offering a community-centered approach.
+This application was inspired by real-world volunteer work assisting individuals in emergency situations in Shanghai and New York, especially marginalized communities. The goal is to **address gaps in support** that cannot be fulfilled solely by government or institutional services, offering a **community-centered approach**.
 
-## Database Design
+### ER Diagram 📊
+
+![ER Diagram](./images/er_diagram.jpg)
+
+The ER diagram above visualizes the relationships between entities. It includes:
+
+- 10 basic tables (e.g., Help Seekers, Incidents, Resources).
+- 9 join tables to manage many-to-many relationships (e.g., Resources and Needs).
+
+## Database Design 🗄️
 
 The database consists of 19 entities to track. Here are the key entities:
 
@@ -22,6 +31,12 @@ The database consists of 19 entities to track. Here are the key entities:
 6. **Languages**: Supported communication languages
 7. **Skills**: Specialized abilities of volunteers
 8. **Locations**: Geographic areas of operation
+
+<details>
+<summary style="cursor: pointer; color: #0366d6; padding: 10px; background-color: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; margin: 10px 0;">
+    📑 View More Entities (11 more)
+</summary>
+
 9. **Violence_Types**: Categories of violence reported
 10. **Need_Types**: Types of assistance required
 11. **Contact_Methods**: Ways to reach help-seekers/volunteers
@@ -33,39 +48,50 @@ The database consists of 19 entities to track. Here are the key entities:
 17. **Status_Updates**: Progress tracking for interventions
 18. **Feedback**: Post-intervention evaluations
 19. **Documentation**: Required paperwork and records
+
 </details>
 
-### ER Diagram
-
-The ER diagram below visualizes the relationships between entities. It includes:
-
-- 10 basic tables (e.g., Help Seekers, Incidents, Resources).
-- 9 join tables to manage many-to-many relationships (e.g., Resources and Needs).
-
-## Stored Procedures
+## Stored Procedures ⚙️
 
 Two key stored procedures automate operations:
 
-- **Match Volunteers**:
+- 🤝 **Match Volunteers**:
   - Automatically match volunteers with help-seekers based on available resources and needs.
 
-- **Filter Interventions**:
+- 🔍 **Filter Interventions**:
   - Remove invalid interventions to ensure accuracy and effectiveness.
 
-## Data Analysis and Insights
+## Data Analysis Visualization 📈
 
-Mock data generated for the platform simulates real-world scenarios. Analysis was conducted to provide insights into:
+Through **analysis** of the **mock data** generated for the platform, we **simulate real-world scenarios** and **reference literature** on violence and support services, revealing several key insights:
 
-- **Resource distribution**: Which resources are requested most and their availability.
-- **Intervention effectiveness**: Success rates based on need and violence categories.
-- **Language needs**: How language barriers affect intervention outcomes.
+<div style="width: 100%; 
+            overflow-x: auto; 
+            white-space: nowrap; 
+            padding-bottom: 15px; 
+            background: #f8f9fa; 
+            border-radius: 8px;">
+    <div style="padding: 10px;">
+        <img src="./query_data_visualization/query_image/effective_interventions_langugage_family_need.png" alt="Language Family Impact" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <img src="./query_data_visualization/query_image/effectiveness_functional_needs_over_time.png" alt="Functional Needs" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <img src="./query_data_visualization/query_image/need_violence_category.png" alt="Needs Distribution" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <img src="./query_data_visualization/query_image/intervention_duration.png" alt="Intervention Duration" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <img src="./query_data_visualization/query_image/residency_status_violence_category.png" alt="Residency Status" style="display: inline-block; margin-right: 20px; max-height: 400px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    </div>
+</div>
 
-### Sample Insights
+<div style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
+    <span style="display: inline-block; 
+                 padding: 8px 15px; 
+                 background: #f1f1f1; 
+                 border-radius: 15px; 
+                 font-size: 0.9em; 
+                 color: #666;">
+        ← Scroll horizontally to view all visualizations →
+    </span>
+</div>
 
-- **Effectiveness Rate**: 90% of interventions completed successfully.
-- **Top Needs by Violence Type**: Shelter, legal aid, and counseling dominate needs across violence categories.
-
-## Project Structure
+## Project Structure 📁
 
 | File Name                  | Description                                                |
 |----------------------------|------------------------------------------------------------|
@@ -75,7 +101,7 @@ Mock data generated for the platform simulates real-world scenarios. Analysis wa
 | `er_diagram.pdf`           | Visual representation of the database schema.             |
 | `incident_need_list_output.xlsx` | Sample output data for tracking incident needs.       |
 
-## Getting Started
+## Getting Started 🚀
 
 ### Database Setup
 
